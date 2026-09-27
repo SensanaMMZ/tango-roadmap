@@ -1,30 +1,44 @@
 # Draft: matchmaking pitch for the N1GP Discord
 
-Edit before posting. Keep it this short; details can follow in replies.
+Edit before posting. Keep it this short; details can follow in replies. Check
+the US/JP claim against a current build first (see
+[03-matchmaking-and-ranking.md](03-matchmaking-and-ranking.md)).
 
 ---
 
-Hi! I'd like to contribute **public matchmaking** to Tango, and wanted to ask
-whether you'd accept it upstream before I build it.
+Hi! I'd like to contribute **public matchmaking for BN6** to Tango, and wanted
+to ask whether you'd accept it upstream before I build it.
 
-**What it is:** a "Find match" button. The server pairs two players in the
-same game, patch and match type, then hands both a random session code.
+**Find match:** the server pairs two players in the same version (vanilla or a
+mod's netplay group) and match type, then hands both a random session code.
 Everything after that is the existing flow: signaling, lobby, compatibility
 checks.
 
-**Privacy:** public matches would always go through a TURN relay, so strangers
-never see each other's IP. Rollback traffic is tiny, so relay cost stays low.
+**Live board:** a screen showing how many people are searching and playing in
+each BN6 version, so people can join whatever's active. You can fight a CPU
+opponent while you wait (I'm building those too).
 
-**Hidden rating:** a Glicko-2 rating per game family, stored on the server and
-never shown, used only to pair people of similar skill. Identity works in
-Tango Lite too: an anonymous WebCrypto device key by default, with optional
-Discord login to keep your rating across devices. No client certificates.
-Results come from both clients' reports; disagreements don't count and get
-flagged, and leaving mid-match is a loss.
+**US + JP together:** the mGBA backend already resolves each seat's ROM for
+crossplay. As far as I can tell, only the lobby's compatibility tag (keyed by
+`bn6` vs `exe6`) keeps them apart. I'd add a shared netplay key for the two
+families and test US vs JP for desyncs first. Mods would stay separate unless
+their authors put both builds in one group.
 
-I'd write the queue service and the client side, following the existing
-architecture. I'm using Claude Code for this, and would keep PRs small and
-tested against the CONTRIBUTING checks.
+**Privacy:** public matches always go through a TURN relay, so strangers never
+see each other's IP.
+
+**Hidden rating:** Glicko-2 per version, stored on the server and never shown,
+used only to pair people of similar skill. Identity is an anonymous device key
+on every platform (desktop, Tango Lite via WebCrypto, Android), with no
+accounts and no client certificates.
+
+**No manual reporting:** both clients already simulate both sides and trap the
+game's own round results, so each sends a signed report automatically. Agreeing
+reports count; disagreements don't and get flagged; leaving mid-match is a loss.
+
+I'd write the queue service and client side, following the existing
+architecture. I'm using Claude Code, and would keep PRs small and tested
+against the CONTRIBUTING checks.
 
 Would you be open to this? If yes, would you want it on the existing
 matchmaking server or as a separate service?

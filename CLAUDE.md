@@ -3,8 +3,22 @@
 This repo plans three additions to Tango (Mega Man Battle Network rollback
 netplay, <https://github.com/tangobattle/tango>). The user wants them in this
 order: **CPU bots → Android port (AYN Thor dual screen) → public matchmaking
-with a hidden rating**. Read `README.md` and the doc for the current phase
-before proposing work. `SESSION.md` records what was already asked and decided;
+with a hidden rating**.
+
+**Scope for bots and matchmaking: BN6 only**, meaning all four cartridges and
+the BN6 mods in Tango's patch list. When the user says "version" of BN6, they
+mean a mod (or vanilla), not a cartridge. The user's decisions for
+matchmaking:
+
+- **US and JP share one pool.** The engine supports crossplay; the lobby's
+  compatibility tag (keyed by family `bn6` vs `exe6`) is what separates them.
+- **Anonymous device key is the default identity on every platform**
+  (desktop, Tango Lite, Android). Discord linking is optional and later.
+- **Wins and losses are reported automatically**, with no user input.
+- **A live board** shows searching and playing counts per version, and players
+  can fight a CPU while they wait.
+
+Read `README.md` and the doc for the current phase before proposing work. `SESSION.md` records what was already asked and decided;
 don't re-ask those questions.
 
 ## Where things stand

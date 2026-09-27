@@ -60,11 +60,48 @@ repeat it. Details are in `docs/`.
     the last ~3,000 upstream commits have a `Co-Authored-By: Claude` trailer.
     Disclose AI use and keep PRs focused and tested.
 
+11. **"Anonymous key as the default on all platforms."**
+    Done: ECDSA P-256 device key on desktop (config dir), Tango Lite
+    (non-extractable WebCrypto key in IndexedDB) and Android (Keystore).
+    Export/import and "link a device" cover lost keys; Discord linking is
+    optional and later.
+
+12. **"How can wins and losses be reported without user input?"**
+    Both clients simulate both sides and trap the game's own round-result
+    code, so each already knows the result. At match end each client sends a
+    signed report (match ID, round outcomes, input-log hash). Agreeing
+    reports count; disagreements are flagged; leaving mid-match is a loss.
+
+13. **"Scope bots and matchmaking to BN6 only."** And: **"By version I mean
+    Tango's modded versions of BN6."**
+    Tango's patch index has 46 BN6 mods (29 US-based, 17 JP-based). The board
+    and the rating are per pool: vanilla, or a mod's netplay group, or an exact
+    mod version.
+
+14. **"UI showing how many users are searching or in matches per version, and
+    bots while waiting."**
+    Live board fed by the matchmaking server over websocket; queue runs in the
+    background during a CPU match; "match found" interrupts it.
+
+15. **"US and JP should not use different pools."** and **"What does 'the
+    lobby's compatibility tag distinguishes by family ID' mean?"**
+    Tango files the US games under family `bn6` and the JP games under family
+    `exe6`. Before a match, each player's pick becomes a compatibility tag
+    built from that family ID, and different tags are refused. So vanilla US
+    and vanilla JP can't match today, although the emulation engine was built
+    to support it. Fix: a shared netplay key for both families, then test for
+    desyncs.
+
 ## Decisions
 
 - Order: **CPU bots → Android port → public matchmaking**.
 - Work moves to the Windows machine. Native MSVC build for Tango, WSL2 for ML.
-- Bots start with BN6.
+- Bots and matchmaking cover **BN6 only**: all four cartridges and its mods.
+- **US and JP share one matchmaking pool.**
+- **Anonymous device key** is the default identity everywhere.
+- **Results are reported automatically.**
+- A **live board** of searching and playing counts per version, with CPU
+  matches while waiting.
 - Code goes in a fork of `tangobattle/tango`; this repo stays planning-only
   and private.
 - Pitch matchmaking **with** the hidden ranking on the N1GP Discord before

@@ -1,8 +1,11 @@
 # Phase 1: CPU opponents
 
 Goal: players can fight a competent CPU opponent offline, with difficulty
-levels. Start with **BN6** (the most-played competitive game, and the one
-tango-ai already mapped), then extend game by game.
+levels, including while they wait in the matchmaking queue (phase 3).
+
+**Scope: Battle Network 6 only**: all four cartridges (US Gregar and Falzar,
+JP Glaga and Falzer) and the BN6 mods in Tango's patch list. Other games come
+later, if at all.
 
 ## Anatomy of a bot
 
@@ -53,8 +56,26 @@ The bot needs more:
 - the opponent's visible actions: attack animation starting, chip in use
 
 tango-ai's BN6 addresses (see [prior-work.md](prior-work.md)) are a starting
-point for those, but they came from 2024 Tango. Check each one against the
-current build before trusting it.
+point for those, but they came from 2024 Tango and one cartridge. Check each
+one against the current build before trusting it.
+
+**Four cartridges, four address tables.** `tango-gamesupport-bn6/src/pvp.rs`
+already keeps per-ROM offsets (`PVP_BR5E_00`, `PVP_BR6E_00`, `PVP_BR5J_00`,
+`PVP_BR6J_00`, with an `EWRAMOffsets` table and a `RawUnit` struct). Add the
+bot's new fields there, for all four, so the observation code is shared.
+
+**Mods.** Tango plays a mod with its base cartridge's offsets, so most mods
+keep the same memory layout. But mods change chips and mechanics:
+
+- Read chip data from the **patched ROM** (the dataview's
+  `load_rom_assets_fn` already reads from the ROM being played), never from a
+  fixed table.
+- Heavy mods (BA Crossover, All-Stars, Legend of NetBattles) add chips and
+  mechanics. Rule and look-ahead bots adapt, because they read chip data and
+  simulate the real game. A trained model only knows the versions it was
+  trained on.
+- Test the bot's observation on each popular mod; the matchmaking board shows
+  which ones people actually play.
 
 Per-game `-dataview` crates already parse folders and chip data (names,
 damage, codes). Use them for chip knowledge instead of hand-copying tables.
@@ -125,8 +146,10 @@ whether learning beats the rules.
 7. **Imitation model** trained on the 4090 in WSL2, run in-game through
    ONNX, compared against the rules bot.
 8. **Self-play** if the imitation model is promising.
-9. **Second game** (BN5 or BN4), reusing the `Opponent` trait with a new
-   observation mapping.
+9. **All four cartridges and the popular mods.** Check the observation on
+   each and fix per-ROM offsets.
+10. **Queue integration**: fight a CPU while waiting for a public match
+    (see phase 3).
 
 ## Open questions
 
