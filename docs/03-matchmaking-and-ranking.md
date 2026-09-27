@@ -7,7 +7,7 @@ in Tango's patch list. Players can join whichever is active, or fight a CPU
 while they wait.
 
 **Scope: Battle Network 6 only**, meaning all four cartridges and all BN6 mods.
-**US and JP players share one pool.**
+Pools follow Tango's own compatibility tags, so US and JP stay separate.
 
 ## BN6 in Tango today
 
@@ -65,38 +65,25 @@ on the JP ROMs (`exe6_*`). Grouped by what can play what:
 Some mods only patch one cartridge (the BA mods need US Gregar; Timaeus needs
 US Falzar).
 
-## Merging US and JP into one pool
+## Pools follow Tango's compatibility rules
 
-**The engine already supports it.** `tango-backend-mgba/src/backend.rs` looks
-up each seat's ROM support from the family's seat table "because crossplay: a
-Japanese cart links with an American one". BN6's table lists all four
-cartridges.
+**Decision: matchmaking uses Tango's compatibility tags as they are.** A pool
+is exactly one tag plus a match type. The queue never pairs two players the
+lobby would refuse, and there's no protocol or compatibility change to argue
+for upstream.
 
-**The lobby blocks it.** The vanilla tag is keyed by family ID, and `bn6` ≠
-`exe6`, so a US player and a JP player get different tags and the lobby
-refuses the pairing. (Test with a current build before relying on this; it's
-read from the code, not observed.)
+What that means for BN6:
 
-To merge them:
+- **US and JP are separate pools.** Vanilla US (`bn6`) and vanilla JP (`exe6`)
+  have different tags. (The mGBA backend was written to support US vs JP
+  crossplay, but the tag keeps them apart, and that's upstream's call.)
+- **Gregar and Falzar play each other** within a region.
+- **Cosmetic mods** (`netplay = "vanilla"`) share their region's vanilla pool.
+- **Grouped mods** share a pool per group; **ungrouped mods** get one pool per
+  exact version.
 
-1. **Give the two families one netplay key.** For example, add a
-   `netplay_family: "bn6"` field to `tango_gamesupport::Family`, set it on
-   both `BN6_FAMILY` and `EXE6_FAMILY`, and build tags from it instead of
-   `id`. Vanilla US and vanilla JP then share a tag, including their cosmetic
-   mods.
-2. **Verify it doesn't desync.** Run US vs JP matches in all three match types
-   and compare both sides' input-log hashes and results. `sim_version` must
-   match across the four seats (the backend requires it for crossplay
-   siblings). Text length differences between regions are the likeliest
-   source of timing drift, so watch chip select and round transitions.
-3. **Mods merge only by their authors' choice.** Most mods have separate US
-   and JP builds in different groups (`bingusbn6v1` vs `bingusexe6v1`), and the
-   builds may really differ. Once the key is shared, a mod author can merge
-   pools by giving both builds the same group name, after testing them against
-   each other. Don't force it.
-
-The rating follows the pool. With US and JP merged, vanilla BN6 has one rating
-for everyone.
+If upstream ever gives the two families one tag, the queue follows
+automatically, since it groups by whatever tag the client computes.
 
 ## How pairing works today
 
@@ -207,12 +194,13 @@ with counts per match type.
 
 ```
 Version                           Single     Triple     Random
-Vanilla BN6 (US + JP)             3 / 4      1 / 6      0 / 1
+Vanilla BN6 (US)                  3 / 4      1 / 6      0 / 1
+Vanilla EXE6 (JP)                 1 / 0      0 / 2      0 / 0
 BingusBN6                         2 / 2      4 / 8      -
 BN6 All-Stars + BBN6              0 / 2      1 / 0      -
 EXE6 Unseniors                    0 / 0      1 / 2      -
 LDR Patch 1.5.8                   0 / 0      0 / 2      -
-▸ 38 more versions with no one online
+▸ 37 more versions with no one online
                          searching / playing   ·   Playing CPU while waiting: 5
 ```
 
@@ -261,8 +249,7 @@ timeouts, penalties for declines and dodges.
 ## Rating
 
 - Glicko-2 or OpenSkill, stored server-side, keyed by player ID.
-- A separate rating per pool (vanilla BN6 with US and JP merged, and each mod
-  pool). Mods change the game enough that skill doesn't fully carry over.
+- A separate rating per pool (vanilla US, vanilla JP, and each mod pool). Mods change the game enough that skill doesn't fully carry over.
   Seed a player's first rating in a new pool from their vanilla rating.
 - Possibly separate per match type.
 - Never shown in the client. Used only for pairing.
@@ -272,8 +259,8 @@ timeouts, penalties for declines and dodges.
 
 ## Risks
 
-- **Small player base.** Pools split by mod and match type (merging US and JP
-  helps). The
+- **Small player base.** Pools split by region, mod and match type. The board
+  and bot-while-waiting help people find where others are. The
   board and bot-while-waiting both exist to make waits bearable. Widen
   matching quickly.
 - **IP exposure.** With codes you connect to people you chose. With a public
@@ -301,8 +288,8 @@ Lead with:
 1. The queue only hands both players a random session code; everything after
    pairing already works.
 2. Public matches go through a TURN relay so strangers never see each other's IP.
-3. One pool for US and JP. The engine already supports crossplay; only the
-   lobby's compatibility tag separates them.
+3. Pools use Tango's existing compatibility tags unchanged, so the queue
+   never pairs players the lobby would refuse.
 4. A hidden rating, stored server-side per pool. Identity is an anonymous
    device key on every platform, including Tango Lite, so it doesn't bring
    back the client-certificate problem.

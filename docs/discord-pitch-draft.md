@@ -1,8 +1,6 @@
 # Draft: matchmaking pitch for the N1GP Discord
 
-Edit before posting. Keep it this short; details can follow in replies. Check
-the US/JP claim against a current build first (see
-[03-matchmaking-and-ranking.md](03-matchmaking-and-ranking.md)).
+Edit before posting. Keep it this short; details can follow in replies.
 
 ---
 
@@ -18,11 +16,8 @@ checks.
 each BN6 version, so people can join whatever's active. You can fight a CPU
 opponent while you wait (I'm building those too).
 
-**US + JP together:** the mGBA backend already resolves each seat's ROM for
-crossplay. As far as I can tell, only the lobby's compatibility tag (keyed by
-`bn6` vs `exe6`) keeps them apart. I'd add a shared netplay key for the two
-families and test US vs JP for desyncs first. Mods would stay separate unless
-their authors put both builds in one group.
+**Same compatibility rules:** pools are exactly the lobby's compatibility
+tags plus match type, so the queue never pairs anyone the lobby would refuse.
 
 **Privacy:** public matches always go through a TURN relay, so strangers never
 see each other's IP.

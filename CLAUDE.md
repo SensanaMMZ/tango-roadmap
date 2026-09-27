@@ -10,15 +10,17 @@ the BN6 mods in Tango's patch list. When the user says "version" of BN6, they
 mean a mod (or vanilla), not a cartridge. The user's decisions for
 matchmaking:
 
-- **US and JP share one pool.** The engine supports crossplay; the lobby's
-  compatibility tag (keyed by family `bn6` vs `exe6`) is what separates them.
+- **Pools follow Tango's compatibility tags unchanged** (tag + match type).
+  US (`bn6`) and JP (`exe6`) are different families, so they stay separate
+  pools. Don't propose merging them.
 - **Anonymous device key is the default identity on every platform**
   (desktop, Tango Lite, Android). Discord linking is optional and later.
 - **Wins and losses are reported automatically**, with no user input.
 - **A live board** shows searching and playing counts per version, and players
   can fight a CPU while they wait.
 
-Read `README.md` and the doc for the current phase before proposing work. `SESSION.md` records what was already asked and decided;
+Read `README.md` and the doc for the current phase before proposing work.
+`SESSION.md` records what was already asked and decided;
 don't re-ask those questions.
 
 ## Where things stand

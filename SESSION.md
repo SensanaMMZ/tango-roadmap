@@ -89,15 +89,19 @@ repeat it. Details are in `docs/`.
     `exe6`. Before a match, each player's pick becomes a compatibility tag
     built from that family ID, and different tags are refused. So vanilla US
     and vanilla JP can't match today, although the emulation engine was built
-    to support it. Fix: a shared netplay key for both families, then test for
-    desyncs.
+    to support it.
+
+16. **"If they distinguish compatibility like that, then follow it."**
+    Decision reversed: pools use Tango's compatibility tags unchanged, so US
+    and JP stay separate. No compatibility changes proposed upstream.
 
 ## Decisions
 
 - Order: **CPU bots → Android port → public matchmaking**.
 - Work moves to the Windows machine. Native MSVC build for Tango, WSL2 for ML.
 - Bots and matchmaking cover **BN6 only**: all four cartridges and its mods.
-- **US and JP share one matchmaking pool.**
+- **Pools follow Tango's compatibility tags unchanged**; US and JP stay
+  separate.
 - **Anonymous device key** is the default identity everywhere.
 - **Results are reported automatically.**
 - A **live board** of searching and playing counts per version, with CPU
