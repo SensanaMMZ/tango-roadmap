@@ -20,10 +20,15 @@ one has changed):
 | Ninja | CMake generator for the melonDS core | `winget install Ninja-build.Ninja` |
 | protoc | protobuf code generation | `winget install protobuf` (or download from the protobuf releases page and add to `PATH`) |
 | Rust (stable, `x86_64-pc-windows-msvc`) | the project | `winget install Rustlang.Rustup`, then `rustup default stable-x86_64-pc-windows-msvc` |
-| Strawberry Perl (maybe) | upstream's `win/build.sh` puts it first on `PATH` for OpenSSL's build scripts; install it if a build fails in `openssl-src` | `winget install StrawberryPerl.StrawberryPerl` |
+| Strawberry Perl | **required**: `datachannel-sys` builds OpenSSL from source, and its scripts need Perl modules MSYS Perl lacks | `winget install StrawberryPerl.StrawberryPerl` |
 | Python 3.11+ | upstream's workspace convention check (`tools/check_workspace.py`) | `winget install Python.Python.3.12` |
 | GitHub CLI | forking, PRs | `winget install GitHub.cli` |
 | Claude Code | continue this work | see <https://claude.com/claude-code> |
+
+If another toolchain (devkitPro's MSYS2, Git Bash) puts its own `cmake`,
+`perl` or `link.exe` ahead of these on `PATH`, the build picks the wrong
+one. [dev-workflow.md](dev-workflow.md) has the wrapper script that fixes the
+order for builds only.
 
 Then:
 

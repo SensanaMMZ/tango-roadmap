@@ -25,10 +25,16 @@ don't re-ask those questions.
 
 ## Where things stand
 
-- No code has been written. The next step is phase 1, milestone 0: fork Tango
-  and build it on the Windows machine (`docs/windows-setup.md`).
-- The code will live in a fork of `tangobattle/tango` under the user's GitHub
-  account (`SensanaMMZ`). This repo stays planning-only.
+- **Phase 1, milestone 0 is done** (2026-09-27). The fork `SensanaMMZ/tango`
+  is cloned on the Windows side, builds, and passes upstream's checks.
+- **Milestone 1 is in progress** on the fork's `cpu-bots` branch: an
+  `Opponent` trait (`tango-session/src/opponent.rs`) wired into training in
+  place of `let dummy = 0;`, a random bot, a "CPU opponent" toggle in the
+  training bar, the restored Training button, and a headless probe example.
+- **Read `docs/dev-workflow.md` before building anything.** It covers the
+  build wrapper, the commands, the gotchas on this machine, the probe, and
+  what's been learned about BN6's custom screen.
+- This repo stays planning-only; code lives in the fork.
 - The Windows machine (RTX 4090, 16C/32T, 64 GB) is the primary dev and training
   box. Use WSL2 for the Python/ML side; build Tango natively with MSVC as
   upstream CI does.

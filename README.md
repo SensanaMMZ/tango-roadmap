@@ -20,6 +20,7 @@ Code session (2026-09-27) so work can resume on the Windows training machine.
 | --- | --- |
 | [CLAUDE.md](CLAUDE.md) | Context Claude Code loads automatically in this repo |
 | [docs/windows-setup.md](docs/windows-setup.md) | Toolchain for building Tango and training bots on Windows |
+| [docs/dev-workflow.md](docs/dev-workflow.md) | Day-to-day build, test and probe commands, machine gotchas, findings |
 | [docs/01-cpu-bots.md](docs/01-cpu-bots.md) | Phase 1: bot design, where it plugs into Tango, milestones |
 | [docs/02-android-port.md](docs/02-android-port.md) | Phase 2: Android host, native cross-compile, Thor dual screen |
 | [docs/03-matchmaking-and-ranking.md](docs/03-matchmaking-and-ranking.md) | Phase 3: queue server, identity, results, rating, pitching upstream |
