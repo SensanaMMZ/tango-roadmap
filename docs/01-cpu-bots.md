@@ -52,7 +52,21 @@ The bot needs more:
 - buster charge level, current chip in hand and its remaining uses
 - the custom-screen hand (the chips offered, their codes, what's selected)
 - panel states and ownership (cracked, broken, stolen areas)
-- statuses: invisibility, barriers, flinch or paralysis, cross or beast form
+- statuses: invisibility, barriers, flinch or paralysis
+- **form**, as two independent fields per player, because they combine:
+  the active **Cross** (none or which one) and the **Beast** state (none,
+  Beast Out with turns left, Beast Over). A Cross and Beast Out together
+  make a **Cross Beast**, and a single "form" value couldn't represent
+  that. Rules (BN6):
+  - A Cross Beast takes **two chip selects**: Cross on one turn, then Beast
+    Out on a later one, or Beast Out first and Cross later. Never both on
+    the same chip-select screen.
+  - Once a Cross Beast is active, **every later chip select may pick a
+    Cross again** (switching crosses) until Beast Out runs out.
+- the custom gauge level, and on the custom screen which Crosses and
+  whether Beast Out are on offer. Read these from the game's own
+  availability flags rather than re-deriving the rules above, so mods
+  that change them stay correct.
 - the opponent's visible actions: attack animation starting, chip in use
 
 tango-ai's BN6 addresses (see [prior-work.md](prior-work.md)) are a starting
@@ -128,19 +142,31 @@ whether learning beats the rules.
 
 ## Milestones
 
-0. **Fork and build.** Fork `tangobattle/tango`, build it on Windows
+0. ✅ **Fork and build.** Fork `tangobattle/tango`, build it on Windows
    (see [windows-setup.md](windows-setup.md)), run BN6 training mode.
-1. **Scripted opponent in training mode.** Replace `dummy = 0` with a
+1. ✅ **Scripted opponent in training mode.** Replace `dummy = 0` with a
    pluggable `Opponent` trait called each tick with the latest observation.
    First implementation: move randomly and fire the buster. This proves the
-   plumbing.
+   plumbing. Done on the fork's `cpu-bots` branch (2026-09-27); see
+   [dev-workflow.md](dev-workflow.md) for what the headless probe found.
 2. **Richer BN6 observation.** Extend the BN6 poller with the fields above,
-   and write a debug overlay that shows what the bot sees.
-3. **Rules bot.** Chip-select heuristics plus reactive dodging. Add a
-   difficulty setting.
+   including Cross and Beast state and the custom gauge. Verify each
+   address with the probe, and write a debug overlay that shows what the
+   bot sees.
+3. **Rules bot.** Chip-select heuristics plus reactive dodging. Picks a
+   Cross or Beast Out, and plans a Cross Beast over two turns (either
+   order), then re-picks the Cross each turn while Beast Out lasts,
+   choosing it by element against the opponent's current form. Plays around
+   the opponent's form. Opens the custom screen when the gauge is full, or
+   holds it on purpose. Add a difficulty setting.
 4. **"Vs CPU" session kind.** Best-of-N, bot's own save, a menu entry in the
    desktop UI.
-5. **Look-ahead at chip select** using state save/restore.
+5. **Look-ahead at chip select** using state save/restore. Compares
+   candidate hands, including Cross, Beast Out and Cross Beast orders, by
+   playing each out in the real game, so form interactions (and mods that
+   change them) need no hand-written rules. Form choices pay off over
+   turns (a Cross Beast needs two chip selects), so their look-ahead must
+   span at least two turns, not one.
 6. **Replay dataset pipeline.** Re-simulate replays headless in parallel and
    dump per-frame observations and actions.
 7. **Imitation model** trained on the 4090 in WSL2, run in-game through
