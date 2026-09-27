@@ -41,5 +41,4 @@ Code session (2026-09-27) so work can resume on the Windows training machine.
   surveyed at commit `84b2795` (2026-09-23).
 - Upstream **has GitHub Issues and Discussions turned off**. Suggestions go to the
   N1GP Discord: <https://discord.n1gp.net>. The main author is `bigfarts`.
-- Forks of a public repo are public on GitHub. This planning repo is private;
-  the code fork of Tango will not be.
+- This planning repo and the code fork of Tango are both public.

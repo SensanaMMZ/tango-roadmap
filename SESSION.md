@@ -107,7 +107,7 @@ repeat it. Details are in `docs/`.
 - A **live board** of searching and playing counts per version, with CPU
   matches while waiting.
 - Code goes in a fork of `tangobattle/tango`; this repo stays planning-only
-  and private.
+  and is public.
 - Pitch matchmaking **with** the hidden ranking on the N1GP Discord before
   building phase 3. See `docs/discord-pitch-draft.md`.
 
