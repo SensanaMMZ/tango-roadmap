@@ -142,6 +142,51 @@ eight 30-second battles.
   every 720 ticks (12 s) with `BN6 Gregar.sav`, and that interval is the
   gauge fill time.
 
+## BN6 RAM map (milestone 2, verified with `bn6_explore`)
+
+Checked on BN6 Gregar (US, `BR5E`) in a single-round training battle,
+using a probe-only raw snapshot of `0x02034000..0x0203E000` plus
+screenshots. Tango says the US and JP EWRAM layouts agree; Falzar and
+the JP cartridges still need a check.
+
+"Local" means this core's own player only (private chip-select state;
+the bot may read it for itself, never for the opponent). "Both" means
+the shared simulation, which each side can see on screen.
+
+| Field | Address | Scope | Values |
+| --- | --- | --- | --- |
+| Unit records (HP, tile, owner) | `0x0203A9B0`, `0xD8` per slot | both | Tango's existing `RawUnit` |
+| Custom gauge | `0x020352A1` | local | 0 → 64 (full) |
+| Chip-select window open | `0x02035288` | local | `0xFF` open, `0x00` closed |
+| Cursor | `0x020364C7` | local | chip slots 0–4 (top row), OK = 10, ★ (Beast Out) = 11 |
+| Cursor on the Cross bar or list | `0x020364C2` | local | 0 grid, 1 Cross bar, 4 Cross list |
+| Chips picked | `0x020364C8` | local | count, ★ included |
+| Picked slots | `0x02036508` (5 bytes) | local | cursor positions; ★ = `0x0B` |
+| Hand | `0x0203CDB0` (8 × u16) | local | `(code << 9) \| chip id`; code 26 = `*`; `0xFFFF` = picked |
+| Form picked this chip select | `0x0203664B` | local | 1 = Cross, 2 = Beast Out |
+| Buster charge counter | `0x0203419B` (p1), `-0x100` p0 | both | +1/tick while B held, caps at 90 |
+| Buster charge level | `0x0203419D` (p1), `-0x100` p0 | both | 0 none, 1 charging, 2 full |
+| **Form** | `0x0203A980` p0, `0x0203A990` p1 | both | 0/255 normal, 1–5 Cross, 11 Beast Out, 12 + Cross = Cross Beast |
+| Form, as displayed | `0x0203CE2C` p0, `0x0203CE90` p1 | both | same values, about 90 ticks later |
+| Beast Out turns left | `0x0203528D` p0, `0x0203528E` p1 | both | 3 → 2 → 1 |
+| Selected chips (queue) | `0x020349C0`, `+0x50` per player | both | Tango's `chip_blocks`; fills a few ticks after chip select closes |
+
+Open: whether the charge and form tables follow the **player** or the
+**unit slot** (slots swap between rounds, and training is one round, so
+check in a best-of-3); the Falzar Cross list; the Beast Over value;
+panels and statuses.
+
+Chip-select behaviour the bot must follow:
+
+- **A Cross or Beast Out transforms and then reopens the chip screen**,
+  with the cursor on OK, so it needs a second confirm (START → A, or A).
+- **Beast Out = cursor to ★ (Right ×5 → OK, Down → ★), then A.** It takes
+  one of the five chip slots.
+- **Picking a Cross greys out ★ for that chip select**, and the active
+  Cross leaves the list on later turns.
+- **START during battle pauses the game.** Only press START while
+  `0x02035288` says the window is open.
+
 ## Saving tokens
 
 - Start a new Claude Code session (or `/clear`) between milestones. This
