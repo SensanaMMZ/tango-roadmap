@@ -171,10 +171,20 @@ the shared simulation, which each side can see on screen.
 | Beast Out turns left | `0x0203528D` p0, `0x0203528E` p1 | both | 3 → 2 → 1 |
 | Selected chips (queue) | `0x020349C0`, `+0x50` per player | both | Tango's `chip_blocks`; fills a few ticks after chip select closes |
 
+| Panels | `0x02039C06` + (y-1)·`0x100` + (x-1)·`0x20`; owner at +1 | both | 01 broken, 02 normal, 03 cracked, 04 poison, 05 holy, 06 grass, 07 ice, 0b GoingRd road, 0c ComingRd road |
+| Obstacles | `0x0203CFF0`, `0xD8` apart (8 scanned) | both | +2/+3 tile, +0x14 HP, +0x16 max HP, +0x18 kind: d0 RockCube, d1 stage cube, d5 BlackBomb, d7 Fan, d8 TimeBomb, da Mine, de Discord, df Timpani, e0 Silence, e2 VDoll, e3 Guardian, e4 Sensor; destroyed = 0 HP until reused |
+
+The default training stage starts with ice in columns 2–5 and two stage
+cubes. Objects take 60–180 ticks to appear after the chip, and need a
+free tile in front of the user (an earlier object there blocks them).
+The `lab` command in `bn6_explore` uses every chip in a folder once;
+`bn6_folder` prints a save's folder with chip names.
+
 Open: whether the charge and form tables follow the **player** or the
 **unit slot** (slots swap between rounds, and training is one round, so
 check in a best-of-3); Falzar's Cross list and Beast Over value;
-emotions, NaviCust bugs, panels and statuses (milestone 2b).
+emotions, NaviCust bugs and statuses (milestone 2b); object owners,
+road direction, volcano and the other panel kinds, LilBolr1 and Fanfare.
 
 Chip-select behaviour the bot must follow:
 
