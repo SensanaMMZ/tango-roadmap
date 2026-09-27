@@ -27,10 +27,13 @@ don't re-ask those questions.
 
 - **Phase 1, milestone 0 is done** (2026-09-27). The fork `SensanaMMZ/tango`
   is cloned on the Windows side, builds, and passes upstream's checks.
-- **Milestone 1 is in progress** on the fork's `cpu-bots` branch: an
-  `Opponent` trait (`tango-session/src/opponent.rs`) wired into training in
-  place of `let dummy = 0;`, a random bot, a "CPU opponent" toggle in the
-  training bar, the restored Training button, and a headless probe example.
+- **Milestones 1 and 2 are done** on the fork's `cpu-bots` branch: an
+  `Opponent` trait in training (`tango-session/src/opponent.rs`), a random
+  bot, the restored Training button, game-specific telemetry detail, BN6's
+  `Bn6Obs` (`tango-gamesupport-bn6/src/observe.rs`), the `custom_probe` and
+  `bn6_explore` examples, and a "CPU sees" debug overlay.
+- **Next: milestone 2b** (emotions, NaviCust bugs, panels, statuses), then
+  milestone 3, the rules bot. See `docs/01-cpu-bots.md`.
 - **Read `docs/dev-workflow.md` before building anything.** It covers the
   build wrapper, the commands, the gotchas on this machine, the probe, and
   what's been learned about BN6's custom screen.

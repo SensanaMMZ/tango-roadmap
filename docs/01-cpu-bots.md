@@ -149,10 +149,21 @@ whether learning beats the rules.
    First implementation: move randomly and fire the buster. This proves the
    plumbing. Done on the fork's `cpu-bots` branch (2026-09-27); see
    [dev-workflow.md](dev-workflow.md) for what the headless probe found.
-2. **Richer BN6 observation.** Extend the BN6 poller with the fields above,
+2. ✅ **Richer BN6 observation.** Extend the BN6 poller with the fields above,
    including Cross and Beast state and the custom gauge. Verify each
    address with the probe, and write a debug overlay that shows what the
-   bot sees.
+   bot sees. Done 2026-09-27 (`Bn6Obs`, the `bn6_explore` probe, and the
+   "CPU sees" overlay; confirmed in play on Gregar). The RAM map is in
+   [dev-workflow.md](dev-workflow.md).
+   - **2b. Emotions, NaviCust bugs, panels and statuses** (next):
+     emotion state for both players (Full Synchro, Anger, Tired,
+     Exhausted), the opponent's only as far as it shows on screen; the
+     bot's own NaviCust bugs, read from its save's NaviCust layout with
+     Tango's existing save parsing (never the opponent's, which is
+     hidden); panels; barriers, invisibility, flinch and paralysis.
+     Also close milestone 2's open checks: player vs unit slot for the
+     charge and form tables (a best-of-3), Falzar's Cross and Beast Over
+     values, and the JP cartridges.
 3. **Rules bot.** Chip-select heuristics plus reactive dodging. Picks a
    Cross or Beast Out, and plans a Cross Beast over two turns (either
    order), then re-picks the Cross each turn while Beast Out lasts,

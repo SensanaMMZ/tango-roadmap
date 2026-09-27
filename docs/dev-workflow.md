@@ -166,15 +166,15 @@ the shared simulation, which each side can see on screen.
 | Form picked this chip select | `0x0203664B` | local | 1 = Cross, 2 = Beast Out |
 | Buster charge counter | `0x0203419B` (p1), `-0x100` p0 | both | +1/tick while B held, caps at 90 |
 | Buster charge level | `0x0203419D` (p1), `-0x100` p0 | both | 0 none, 1 charging, 2 full |
-| **Form** | `0x0203A980` p0, `0x0203A990` p1 | both | 0/255 normal, 1–5 Cross, 11 Beast Out, 12 + Cross = Cross Beast |
+| **Form** | `0x0203A980` p0, `0x0203A990` p1 | both | 0/255 normal, 1–5 Cross, 11 Beast Out, 12 + Cross = Cross Beast, 23 Beast Over (Gregar, seen in play) |
 | Form, as displayed | `0x0203CE2C` p0, `0x0203CE90` p1 | both | same values, about 90 ticks later |
 | Beast Out turns left | `0x0203528D` p0, `0x0203528E` p1 | both | 3 → 2 → 1 |
 | Selected chips (queue) | `0x020349C0`, `+0x50` per player | both | Tango's `chip_blocks`; fills a few ticks after chip select closes |
 
 Open: whether the charge and form tables follow the **player** or the
 **unit slot** (slots swap between rounds, and training is one round, so
-check in a best-of-3); the Falzar Cross list; the Beast Over value;
-panels and statuses.
+check in a best-of-3); Falzar's Cross list and Beast Over value;
+emotions, NaviCust bugs, panels and statuses (milestone 2b).
 
 Chip-select behaviour the bot must follow:
 
