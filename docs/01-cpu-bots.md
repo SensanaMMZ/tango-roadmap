@@ -157,7 +157,12 @@ whether learning beats the rules.
    [dev-workflow.md](dev-workflow.md).
    - **2b. Emotions, NaviCust bugs, panels and statuses** (next):
      emotion state for both players (Full Synchro, Anger, Tired,
-     Exhausted), the opponent's only as far as it shows on screen; the
+     Exhausted), the opponent's only as far as it shows on screen.
+     **Full Synchro** comes from landing a counter hit while in the
+     normal state or a plain Beast Out; a Cross, Tired or Exhausted can't
+     trigger it. **Anger** comes from taking a lot of damage in the normal
+     state without hitting back (an Elec Cross Beast charge plus the
+     Gregar buster does it, for example); the
      bot's own NaviCust bugs, read from its save's NaviCust layout with
      Tango's existing save parsing (never the opponent's, which is
      hidden); barriers, invisibility, flinch and paralysis.
