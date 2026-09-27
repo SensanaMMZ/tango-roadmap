@@ -160,7 +160,14 @@ whether learning beats the rules.
      Exhausted), the opponent's only as far as it shows on screen; the
      bot's own NaviCust bugs, read from its save's NaviCust layout with
      Tango's existing save parsing (never the opponent's, which is
-     hidden); panels; barriers, invisibility, flinch and paralysis.
+     hidden); barriers, invisibility, flinch and paralysis.
+     **The whole field**, all visible to both sides: every panel's type
+     (normal, cracked, broken, empty, grass, volcano, poison and the rest)
+     and owner (stolen areas); rail/conveyor panels and which way they
+     move; and every stage object (RockCube, IceCube, bombs, fans and so
+     on) with its tile and HP. Lead: tango-ai's panel table at
+     `0x02039C06` (`0x20` per column, `0x100` per row, owner in the next
+     byte); objects likely sit in the object list beside the units.
      Also close milestone 2's open checks: player vs unit slot for the
      charge and form tables (a best-of-3), Falzar's Cross and Beast Over
      values, and the JP cartridges.
