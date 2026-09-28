@@ -173,6 +173,12 @@ the shared simulation, which each side can see on screen.
 
 | Panels | `0x02039C06` + (y-1)·`0x100` + (x-1)·`0x20`; owner at +1 | both | 01 broken, 02 normal, 03 cracked, 04 poison, 05 holy, 06 grass, 07 ice, 0b GoingRd road, 0c ComingRd road |
 | Obstacles | `0x0203CFF0`, `0xD8` apart (8 scanned) | both | +2/+3 tile, +0x14 HP, +0x16 max HP, +0x18 kind: d0 RockCube, d1 stage cube, d5 BlackBomb, d7 Fan, d8 TimeBomb, da Mine, de Discord, df Timpani, e0 Silence, e2 VDoll, e3 Guardian, e4 Sensor; destroyed = 0 HP until reused |
+| Barrier, aura, invisibility | `0x020384E8`, `0xA8` per slot (players' records in the battle object pool) | both | +0x0E kind (01 Barrier, 05 Barr100, 07 Barr200, 08 BblWrap, 09 LifeAur), +0x1E HP, +0x1F aura threshold, +0x2C u16 invisibility ticks |
+
+Traps (Anti- chips, ElemTrap) are deliberately not read: they're hidden
+from the opponent, and a bot knows its own from having set them. The
+`duel` command in `bn6_explore` has seat 1 set each defense while seat 0
+attacks it.
 
 The default training stage starts with ice in columns 2–5 and two stage
 cubes. Objects take 60–180 ticks to appear after the chip, and need a
