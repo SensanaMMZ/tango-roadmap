@@ -180,8 +180,7 @@ the shared simulation, which each side can see on screen.
 | Form picked this chip select | `0x0203664B` | local | 1 = Cross, 2 = Beast Out |
 | Buster charge counter | `0x0203419B` (p1), `-0x100` p0 | both | +1/tick while B held, caps at 90 |
 | Buster charge level | `0x0203419D` (p1), `-0x100` p0 | both | 0 none, 1 charging, 2 full |
-| **Form** | `0x0203A980` p0, `0x0203A990` p1 | both | 0/255 normal, 1–5 Cross, 11 Beast Out, 12 + Cross = Cross Beast, 23 Beast Over (Gregar, seen in play) |
-| Form, as displayed | `0x0203CE2C` p0, `0x0203CE90` p1 | both | same values, about 90 ticks later |
+| **Form** (`NaviStats.Transformation`) | `0x0203CE2C` p0, `0x0203CE90` p1 | both | 0 normal, 1–10 Cross, 11/12 Beast Out (Gregar/Falzar), 12 + Cross = Cross Beast, 23/24 Beast Over. The table at `0x0203A980` is the choice being applied and reads 255 once it lands; don't use it |
 | Beast Out turns left | `0x0203528D` p0, `0x0203528E` p1 | both | 3 → 2 → 1 |
 | Selected chips (queue) | `0x020349C0`, `+0x50` per player | both | Tango's `chip_blocks`; fills a few ticks after chip select closes |
 
@@ -195,7 +194,14 @@ Emotion (`possiblyGetBattleEmotion_8015B64` in bn6f `asm/asm00_2.s`), via
 `BattleObject + 0x58` (`AIDataPtr`): `AIData.Unk_36` set or mood 0 → code
 5; else `AIData.Anger` (+0x34) → Anger; else `AIData.Unk_32` (+0x32,
 0xFFFF while on) → Full Synchro; else mood 255 → code 2; else normal.
-Codes 2 and 5 still need matching to a HUD face in play.
+Names, from a scripted Beast Out and play: code 1 (`Unk_32`) = **Tired**
+(on once the Beast Out counter runs out, for the rest of the battle);
+code 5 (`Unk_36`) = **Exhausted** (after Beast Over; HP drains to 1 and,
+per play, every NaviCust part is lost, though the stats bytes stay set,
+so the bot blanks its NaviCust itself); Anger confirmed against its flag
+in play; code 2 (mood 255) presumed **Full Synchro**. Beast Over comes from
+picking ★ again once the Beast Out counter is at 0. ComingRd pulls a
+player forward to the front panels.
 
 Fairness: the bot gets its own NaviCust and mood only. The other player's
 emotion is limited to Full Synchro and Anger (visible on screen); Tired
