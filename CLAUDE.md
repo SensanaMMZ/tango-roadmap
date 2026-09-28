@@ -32,8 +32,11 @@ don't re-ask those questions.
   bot, the restored Training button, game-specific telemetry detail, BN6's
   `Bn6Obs` (`tango-gamesupport-bn6/src/observe.rs`), the `custom_probe` and
   `bn6_explore` examples, and a "CPU sees" debug overlay.
-- **Next: milestone 2b** (emotions, NaviCust bugs, panels, statuses), then
-  milestone 3, the rules bot. See `docs/01-cpu-bots.md`.
+- **Milestone 2b is done** too: statuses, emotions, NaviCust, the whole
+  field (panels, objects), all read from the game with fairness rules
+  (the bot never sees the opponent's hand, NaviCust, mood meter or traps).
+- **Next: milestone 3, the rules bot.** See `docs/01-cpu-bots.md`, and the
+  BN6 mechanics reference once written (`docs/bn6-mechanics.md`).
 - **Read `docs/dev-workflow.md` before building anything.** It covers the
   build wrapper, the commands, the gotchas on this machine, the probe, and
   what's been learned about BN6's custom screen.

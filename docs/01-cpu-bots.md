@@ -155,7 +155,13 @@ whether learning beats the rules.
    bot sees. Done 2026-09-27 (`Bn6Obs`, the `bn6_explore` probe, and the
    "CPU sees" overlay; confirmed in play on Gregar). The RAM map is in
    [dev-workflow.md](dev-workflow.md).
-   - **2b. Emotions, NaviCust bugs, panels and statuses** (next):
+   - ✅ **2b. Emotions, NaviCust bugs, panels and statuses.** Done
+     2026-09-27, confirmed in play (Full Synchro = mood 255, Anger, Tired,
+     Exhausted; paralysis, blind, confused, immobilized flags; roads).
+     Carried forward: the player-vs-unit-slot check needs a best-of-3
+     (milestone 4); object owners (milestone 3); NaviCust bugs are only
+     unit-tested (every save at hand has BugStop); up/down roads never
+     appeared in 500 random stages. Original scope:
      emotion state for both players (Full Synchro, Anger, Tired,
      Exhausted), the opponent's only as far as it shows on screen.
      **Full Synchro** comes from landing a counter hit while in the
