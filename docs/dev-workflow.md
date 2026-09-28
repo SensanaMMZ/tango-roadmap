@@ -189,6 +189,11 @@ the shared simulation, which each side can see on screen.
 | Obstacles | `0x0203CFF0`, `0xD8` apart (8 scanned) | both | +2/+3 tile, +0x14 HP, +0x16 max HP, +0x18 kind: d0 RockCube, d1 stage cube, d5 BlackBomb, d7 Fan, d8 TimeBomb, da Mine, de Discord, df Timpani, e0 Silence, e2 VDoll, e3 Guardian, e4 Sensor; destroyed = 0 HP until reused |
 | `CollisionData` (via `BattleObject + 0x54`; pool at `0x020384F0`, `0xA8` each) | per unit | both | +0x06 barrier kind (01 Barrier, 05 Barr100, 07 Barr200, 08 BblWrap, 09 LifeAur), +0x16 barrier HP, +0x17 aura threshold, +0x24 invisibility ticks, +0x3C `ObjectFlags1` (paralyzed, flinching, anger, invisible, super armor...) |
 | `eBattleNaviStats` | `0x0203CE00`, `0x64` per player | both | +0x0E Mood (128 at rest, falls as hits are taken without hitting back), +0x21 BeastOutCounter, +0x2C Transformation |
+| NaviCust effects | the same `eBattleNaviStats` record | **self only** | each NaviCust family's level at the family's number (`NCP_Families.h`): 0x14 BusterBug, 0x31 move/panel-skip bug, 0x13 panels-disappear, 0x18 battle HP bug, 0x19 custom HP bug, 0x24 EmotionBug, 0x1F BugStop, 0x23 SuperArmor... |
+
+Fairness: the bot gets its own NaviCust and mood only. On the other
+player, status bits that only reveal NaviCust parts (super armor,
+undershirt, shoes) are masked and the mood meter is hidden.
 
 Traps (Anti- chips, ElemTrap) are deliberately not read: they're hidden
 from the opponent, and a bot knows its own from having set them. The
