@@ -142,6 +142,20 @@ eight 30-second battles.
   every 720 ticks (12 s) with `BN6 Gregar.sav`, and that interval is the
   gauge fill time.
 
+## BN6 disassembly: check here first
+
+[dism-exe/bn6f](https://github.com/dism-exe/bn6f) is a disassembly of BN6
+Cybeast Falzar (US). `ewram.s` names every work-RAM area with its
+address, and `include/structs/*.inc` lays out the structs: `BattleObject`
+(= Tango's `RawUnit`), `CollisionData` (status flags, barrier,
+invisibility), `NaviStats` (Mood, BeastOutCounter, Transformation, bug
+fields) and `PanelData`. `constants/constants.inc` has the `TF_` form
+enum. It independently confirmed every address the probe found. Look
+things up there before diffing RAM; use the probe to confirm. A sparse
+clone of its headers lives at `~/tango/ref/bn6f`.
+[alex-berliner/bn6-rust](https://github.com/alex-berliner/bn6-rust)
+reimplements the battle system from it.
+
 ## BN6 RAM map (milestone 2, verified with `bn6_explore`)
 
 Checked on BN6 Gregar (US, `BR5E`) in a single-round training battle,
@@ -171,9 +185,10 @@ the shared simulation, which each side can see on screen.
 | Beast Out turns left | `0x0203528D` p0, `0x0203528E` p1 | both | 3 → 2 → 1 |
 | Selected chips (queue) | `0x020349C0`, `+0x50` per player | both | Tango's `chip_blocks`; fills a few ticks after chip select closes |
 
-| Panels | `0x02039C06` + (y-1)·`0x100` + (x-1)·`0x20`; owner at +1 | both | 01 broken, 02 normal, 03 cracked, 04 poison, 05 holy, 06 grass, 07 ice, 0b GoingRd road, 0c ComingRd road |
+| Panels (`PanelData.Type`) | `0x02039C02` + (y-1)·`0x100` + (x-1)·`0x20`; owner at +1 | both | 01 broken, 02 normal, 03 cracked, 04 poison, 05 holy, 06 grass, 07 ice, 0b GoingRd road, 0c ComingRd road |
 | Obstacles | `0x0203CFF0`, `0xD8` apart (8 scanned) | both | +2/+3 tile, +0x14 HP, +0x16 max HP, +0x18 kind: d0 RockCube, d1 stage cube, d5 BlackBomb, d7 Fan, d8 TimeBomb, da Mine, de Discord, df Timpani, e0 Silence, e2 VDoll, e3 Guardian, e4 Sensor; destroyed = 0 HP until reused |
-| Barrier, aura, invisibility | `0x020384E8`, `0xA8` per slot (players' records in the battle object pool) | both | +0x0E kind (01 Barrier, 05 Barr100, 07 Barr200, 08 BblWrap, 09 LifeAur), +0x1E HP, +0x1F aura threshold, +0x2C u16 invisibility ticks |
+| `CollisionData` (via `BattleObject + 0x54`; pool at `0x020384F0`, `0xA8` each) | per unit | both | +0x06 barrier kind (01 Barrier, 05 Barr100, 07 Barr200, 08 BblWrap, 09 LifeAur), +0x16 barrier HP, +0x17 aura threshold, +0x24 invisibility ticks, +0x3C `ObjectFlags1` (paralyzed, flinching, anger, invisible, super armor...) |
+| `eBattleNaviStats` | `0x0203CE00`, `0x64` per player | both | +0x0E Mood (128 at rest, falls as hits are taken without hitting back), +0x21 BeastOutCounter, +0x2C Transformation |
 
 Traps (Anti- chips, ElemTrap) are deliberately not read: they're hidden
 from the opponent, and a bot knows its own from having set them. The
