@@ -199,7 +199,7 @@ Names, from a scripted Beast Out and play: code 1 (`Unk_32`) = **Tired**
 code 5 (`Unk_36`) = **Exhausted** (after Beast Over; HP drains to 1 and,
 per play, every NaviCust part is lost, though the stats bytes stay set,
 so the bot blanks its NaviCust itself); Anger confirmed against its flag
-in play; code 2 (mood 255) presumed **Full Synchro**. Beast Over comes from
+in play; code 2 (mood 255) is **Full Synchro** (confirmed in play). Beast Over comes from
 picking ★ again once the Beast Out counter is at 0. Roads: GoingRd pushes a
 player back, ComingRd pulls them forward to the front panels; stages also
 have up and down roads that no chip makes.
