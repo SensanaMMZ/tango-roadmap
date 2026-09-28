@@ -191,7 +191,16 @@ the shared simulation, which each side can see on screen.
 | `eBattleNaviStats` | `0x0203CE00`, `0x64` per player | both | +0x0E Mood (128 at rest, falls as hits are taken without hitting back), +0x21 BeastOutCounter, +0x2C Transformation |
 | NaviCust effects | the same `eBattleNaviStats` record | **self only** | each NaviCust family's level at the family's number (`NCP_Families.h`): 0x14 BusterBug, 0x31 move/panel-skip bug, 0x13 panels-disappear, 0x18 battle HP bug, 0x19 custom HP bug, 0x24 EmotionBug, 0x1F BugStop, 0x23 SuperArmor... |
 
-Fairness: the bot gets its own NaviCust and mood only. On the other
+Emotion (`possiblyGetBattleEmotion_8015B64` in bn6f `asm/asm00_2.s`), via
+`BattleObject + 0x58` (`AIDataPtr`): `AIData.Unk_36` set or mood 0 → code
+5; else `AIData.Anger` (+0x34) → Anger; else `AIData.Unk_32` (+0x32,
+0xFFFF while on) → Full Synchro; else mood 255 → code 2; else normal.
+Codes 2 and 5 still need matching to a HUD face in play.
+
+Fairness: the bot gets its own NaviCust and mood only. The other player's
+emotion is limited to Full Synchro and Anger (visible on screen); Tired
+and Exhausted aren't visible, so a bot infers them from the Beast Out and
+Beast Over it saw. On the other
 player, status bits that only reveal NaviCust parts (super armor,
 undershirt, shoes) are masked and the mood meter is hidden.
 
