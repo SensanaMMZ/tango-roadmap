@@ -200,8 +200,9 @@ code 5 (`Unk_36`) = **Exhausted** (after Beast Over; HP drains to 1 and,
 per play, every NaviCust part is lost, though the stats bytes stay set,
 so the bot blanks its NaviCust itself); Anger confirmed against its flag
 in play; code 2 (mood 255) presumed **Full Synchro**. Beast Over comes from
-picking ★ again once the Beast Out counter is at 0. ComingRd pulls a
-player forward to the front panels.
+picking ★ again once the Beast Out counter is at 0. Roads: GoingRd pushes a
+player back, ComingRd pulls them forward to the front panels; stages also
+have up and down roads that no chip makes.
 
 Fairness: the bot gets its own NaviCust and mood only. The other player's
 emotion is limited to Full Synchro and Anger (visible on screen); Tired
