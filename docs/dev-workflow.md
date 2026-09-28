@@ -180,8 +180,9 @@ from the opponent, and a bot knows its own from having set them. The
 `duel` command in `bn6_explore` has seat 1 set each defense while seat 0
 attacks it.
 
-The default training stage starts with ice in columns 2–5 and two stage
-cubes. Objects take 60–180 ticks to appear after the chip, and need a
+**The stage (panels and starting objects) is randomized at battle start.**
+The probe always boots with the same seed, so it always drew one stage:
+ice in columns 2–5 and two cubes. Objects take 60–180 ticks to appear after the chip, and need a
 free tile in front of the user (an earlier object there blocks them).
 The `lab` command in `bn6_explore` uses every chip in a folder once;
 `bn6_folder` prints a save's folder with chip names.

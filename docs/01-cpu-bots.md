@@ -162,7 +162,12 @@ whether learning beats the rules.
      normal state or a plain Beast Out; a Cross, Tired or Exhausted can't
      trigger it. **Anger** comes from taking a lot of damage in the normal
      state without hitting back (an Elec Cross Beast charge plus the
-     Gregar buster does it, for example); the
+     Gregar buster does it, for example). **Tired** follows once all of
+     Beast Out has run out; **Exhausted** is the state after Beast Over.
+     **Flinch** comes in two kinds: an ordinary hit (super armor prevents
+     it) and a direct WindRack hit (or TenguCross's WindRack), which
+     blows the target back. **Paralysis** comes from the Elec Beast
+     charged attack hitting MegaMan; the
      bot's own NaviCust bugs, read from its save's NaviCust layout with
      Tango's existing save parsing (never the opponent's, which is
      hidden); barriers, invisibility, flinch and paralysis.
